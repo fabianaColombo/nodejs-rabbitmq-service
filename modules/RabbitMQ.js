@@ -1,10 +1,9 @@
 const amqp = require("amqplib/callback_api");
-const DHCP = require("./DHCP/fakeDHCPServer");
 
 class RabbitMQ {
   constructor() {}
 
-  async sendMessage() {
+  async sendMessage(msg) {
     amqp.connect("amqp://localhost", function (error0, connection) {
       if (error0) {
         throw error0;
@@ -14,15 +13,13 @@ class RabbitMQ {
           throw error1;
         }
         var queue = "hello2";
-        var msg = new DHCP().getMacAddress();
-
+        
         channel.assertQueue(queue, {
           durable: true,
         });
-
+        
         channel.sendToQueue(queue, Buffer.from(msg), { persistent: true });
         console.log(" [x] Sent %s", msg);
-        //process.stdout.write(` [x] Sent ${msg}`);
       });
     });
   }
