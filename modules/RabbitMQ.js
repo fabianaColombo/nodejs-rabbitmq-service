@@ -1,5 +1,5 @@
 const amqp = require("amqplib/callback_api");
-const xmlJs = require("xml-js");
+const DHCP = require("./DHCP/fakeDHCPServer");
 
 class RabbitMQ {
   constructor() {}
@@ -14,7 +14,7 @@ class RabbitMQ {
           throw error1;
         }
         var queue = "hello2";
-        var msg = process.argv.slice(2).join(' ') || "Hello World!.";
+        var msg = new DHCP().getMacAddress();
 
         channel.assertQueue(queue, {
           durable: true,

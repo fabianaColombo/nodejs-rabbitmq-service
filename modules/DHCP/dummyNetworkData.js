@@ -1,4 +1,4 @@
-[
+module.exports = [
     {
         "ip": "143.178.76.01",
         "mac-address": "2C:01:02:33:B2:E3",
@@ -39,4 +39,4 @@
         "mac-address": "2C:01:02",
         "modem-type": "G"
     }
-]
+];
