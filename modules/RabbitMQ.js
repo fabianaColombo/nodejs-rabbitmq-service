@@ -1,4 +1,5 @@
 const amqp = require("amqplib/callback_api");
+const xmlJs = require("xml-js");
 
 class RabbitMQ {
   constructor() {}
@@ -12,15 +13,16 @@ class RabbitMQ {
         if (error1) {
           throw error1;
         }
-        var queue = "hello";
-        var msg = "Hello world";
+        var queue = "hello2";
+        var msg = process.argv.slice(2).join(' ') || "Hello World!.";
 
         channel.assertQueue(queue, {
-          durable: false,
+          durable: true,
         });
 
-        channel.sendToQueue(queue, Buffer.from(msg));
+        channel.sendToQueue(queue, Buffer.from(msg), { persistent: true });
         console.log(" [x] Sent %s", msg);
+        //process.stdout.write(` [x] Sent ${msg}`);
       });
     });
   }
@@ -35,10 +37,10 @@ class RabbitMQ {
           throw error1;
         }
 
-        var queue = "hello";
+        var queue = "hello2";
 
         channel.assertQueue(queue, {
-          durable: false,
+          durable: true,
         });
 
         console.log(
@@ -49,10 +51,16 @@ class RabbitMQ {
         channel.consume(
           queue,
           function (msg) {
+            var secs = msg.content.toString().split(".").length - 1;
+
             console.log(" [x] Received %s", msg.content.toString());
+            setTimeout(function () {
+              channel.ack(msg);
+              console.log(" [x] Done");
+            }, secs * 10000);
           },
           {
-            noAck: true,
+            noAck: false,
           }
         );
       });
