@@ -1,16 +1,32 @@
 const express = require("express");
+const xmlJs = require("xml-js");
 const { Router } = express;
 const router = new Router();
 const RabbitMQ = require("../modules/RabbitMQ");
+const DHCP = require("../modules/DHCP/fakeDHCPServer");
 
 router.get("/send-message", async (req, res) => {
   try {
+    /**
+     * Fake call to a DHCP server returns modem data in xml.
+     */
+    const message = new DHCP().getMacAddress();
 
-    const broker = new RabbitMQ();
-    const send = await broker.sendMessage();
+    const jsonMessage = xmlJs.xml2js(message, { compact: true, spaces: 4 });
 
-    console.log("what is send", send);
-    
+    const regex = new RegExp(
+      /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\\.[0-9a-fA-F]{4}\\.[0-9a-fA-F]{4})$/
+    );
+
+    const macAddress = jsonMessage.modem["mac-address"]._text;
+
+    if (regex.test(macAddress) === true) {
+      console.log("valid", macAddress);
+      const broker = new RabbitMQ();
+      await broker.sendMessage(message);
+    } else {
+      console.log("invalid", macAddress);
+    }
     return res.status(202).send("hello");
   } catch (e) {
     return res.status(500).send({ status: "Internal Server Error" });
