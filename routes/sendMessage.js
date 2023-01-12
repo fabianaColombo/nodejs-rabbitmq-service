@@ -24,10 +24,14 @@ router.get("/send-message", async (req, res) => {
       console.log("valid", macAddress);
       const broker = new RabbitMQ();
       await broker.sendMessage(message);
+      return res.status(202).send("Accepted");
     } else {
-      console.log("invalid", macAddress);
+      return res
+      .status(400)
+      .send({
+        status: "Bad Request",
+        error: `Invalid MAC address: ${macAddress}`});
     }
-    return res.status(202).send("hello");
   } catch (e) {
     return res.status(500).send({ status: "Internal Server Error" });
   }
