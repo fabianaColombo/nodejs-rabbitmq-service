@@ -12,14 +12,14 @@ class RabbitMQ {
         if (error1) {
           throw error1;
         }
-        var queue = "hello2";
+        const queue = "dhcp-notifications";
         
         channel.assertQueue(queue, {
           durable: true,
         });
         
         channel.sendToQueue(queue, Buffer.from(msg), { persistent: true });
-        console.log(" [x] Sent %s", msg);
+        console.log(` [x] Sent ${msg}`);
       });
     });
   }
@@ -34,7 +34,7 @@ class RabbitMQ {
           throw error1;
         }
 
-        var queue = "hello2";
+        const queue = "dhcp-notifications";
 
         channel.assertQueue(queue, {
           durable: true,
@@ -48,13 +48,13 @@ class RabbitMQ {
         channel.consume(
           queue,
           function (msg) {
-            var secs = msg.content.toString().split(".").length - 1;
+            const secs = msg.content.toString().split(".").length - 1;
 
             console.log(" [x] Received %s", msg.content.toString());
             setTimeout(function () {
               channel.ack(msg);
               console.log(" [x] Done");
-            }, secs * 10000);
+            }, secs * 1000);
           },
           {
             noAck: false,
