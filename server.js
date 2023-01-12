@@ -6,7 +6,7 @@ const sendMessage = require("./routes/sendMessage")
 
 app.use(express.json());
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) => res.send('Message sender running...'));
 app.use("/api", sendMessage)
 
 app.listen(port, function () {

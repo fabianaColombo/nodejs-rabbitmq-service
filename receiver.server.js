@@ -5,6 +5,7 @@ const RabbitMQ = require("./modules/RabbitMQ");
 const messageBroker = new RabbitMQ();
 messageBroker.receiveMessage();
 
+app.get('/', (req, res) => res.send('Message receiver running...'));
 
 app.listen(port2, function () {
   console.log("Server started on port: " + port2);
