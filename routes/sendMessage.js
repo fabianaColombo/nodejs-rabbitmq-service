@@ -14,6 +14,9 @@ router.get("/send-message", async (req, res) => {
 
     const jsonMessage = xmlJs.xml2js(message, { compact: true, spaces: 4 });
 
+    /**
+     * Regex describing how mac-address should look like
+     */
     const regex = new RegExp(
       /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\\.[0-9a-fA-F]{4}\\.[0-9a-fA-F]{4})$/
     );
@@ -21,10 +24,13 @@ router.get("/send-message", async (req, res) => {
     const macAddress = jsonMessage.modem["mac-address"]._text;
 
     if (regex.test(macAddress) === true) {
-      console.log("valid", macAddress);
       const broker = new RabbitMQ();
+
       await broker.sendMessage(message);
-      return res.status(202).send("Accepted");
+
+      return res.status(202).send({status: "Accepted",
+      message: `Successfully submitted modem to queue. MAC-address: ${macAddress}`});
+
     } else {
       return res
       .status(400)
