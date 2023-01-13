@@ -38,8 +38,6 @@ cd nodejs-rabbitmq-service
 npm install
 ```
 
-Create a .env file in the root of the repository containing 
-
 #### Locally run servers from terminal
 
 Open 3 terminal windows:
