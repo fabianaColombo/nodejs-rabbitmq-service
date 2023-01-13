@@ -85,5 +85,5 @@ Your terminal window should also have print: "[*] Waiting for messages in hello2
 
 ## Author
 
-* **Fabiana Colombo** - *Orders Service* - [Github - fabianaColombo](https://github.com/fabianaColombo)
+* **Fabiana Colombo** - *Nodejs RabbitMQ Service* - [Github - fabianaColombo](https://github.com/fabianaColombo)
 
