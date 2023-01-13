@@ -4,16 +4,20 @@
   "description": "microservice to handle messages in queue using rabbitMQ",
   "main": "server.js",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon server.js ",
+    "sender": "NODE_ENV=development nodemon server.js ",
+    "receiver": "NODE_ENV=development nodemon receiver.server.js ",
+    "broker": "docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-management",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fabiana Colombo",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.3",
     "body-parser": "^1.20.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
