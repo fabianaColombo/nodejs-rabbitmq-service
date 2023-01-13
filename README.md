@@ -2,11 +2,9 @@
 A microservice using RabbitMQ as a message broker to handle message queues.
 
 Main functionalities:
-> Simulates a DHCP server that returns the information of one cable modem per time (ip, mac-address and modem-type) in XML format. 
-
-> A REST API endpoint (GET request) that calls the DHCP server, checks the validity of the MAC-address format and places the XML message in the queue.
-
-> A consumer that continuously run (on separate server) printing queued messages and acknowledgements
+- Simulates a DHCP server that returns the information of one cable modem per time (ip, mac-address and modem-type) in XML format. 
+- A REST API endpoint (GET request) that calls the DHCP server, checks the validity of the MAC-address format and places the XML message in the queue.
+- A consumer that continuously run (on separate server) printing queued messages and acknowledgements
 
 ## Getting Started
 
