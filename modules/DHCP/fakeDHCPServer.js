@@ -9,7 +9,7 @@ class DHCP {
       networkData[Math.floor(Math.random() * networkData.length)];
 
     const options = { compact: true, ignoreComment: true, spaces: 4 };
-    
+
     const xmlMessage = xmlJs.json2xml(
       {
         _declaration: { _attributes: { version: "1.0", encoding: "utf-8" } },

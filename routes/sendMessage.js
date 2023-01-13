@@ -28,15 +28,17 @@ router.get("/send-message", async (req, res) => {
 
       await broker.sendMessage(message);
 
-      return res.status(202).send({status: "Accepted",
-      message: `Successfully submitted modem to queue. MAC-address: ${macAddress}`});
-
-    } else {
       return res
-      .status(400)
-      .send({
+        .status(202)
+        .send({
+          status: "Accepted",
+          message: `Successfully submitted modem to queue. MAC-address: ${macAddress}`,
+        });
+    } else {
+      return res.status(400).send({
         status: "Bad Request",
-        error: `Invalid MAC address: ${macAddress}`});
+        error: `Invalid MAC address: ${macAddress}`,
+      });
     }
   } catch (e) {
     return res.status(500).send({ status: "Internal Server Error" });

@@ -13,11 +13,11 @@ class RabbitMQ {
           throw error1;
         }
         const queue = "dhcp-notifications";
-        
+
         channel.assertQueue(queue, {
           durable: true,
         });
-        
+
         channel.sendToQueue(queue, Buffer.from(msg), { persistent: true });
         console.log(` [x] Sent ${msg}`);
       });
@@ -41,8 +41,7 @@ class RabbitMQ {
         });
 
         console.log(
-          " [*] Waiting for messages in %s. To exit press CTRL+C",
-          queue
+          ` [*] Waiting for messages in ${queue}. To exit press CTRL+C`
         );
 
         channel.consume(
@@ -50,7 +49,7 @@ class RabbitMQ {
           function (msg) {
             const secs = msg.content.toString().split(".").length - 1;
 
-            console.log(" [x] Received %s", msg.content.toString());
+            console.log(` [x] Received ${msg.content.toString()}`);
             setTimeout(function () {
               channel.ack(msg);
               console.log(" [x] Done");
